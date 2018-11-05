@@ -1,22 +1,14 @@
-#if UNITY_IOS && !UNITY_EDITOR
-using System.Runtime.InteropServices;
-#endif
+#import <Foundation/NSException.h>
+#import <AVFoundation/AVFoundation.h>
+#import <UIKit/UIKit.h>
 
-public static class iOSCameraPermission
-{
+@interface PermissionProviderHelper : NSObject {}
+-(void) checkLocationPermission :(NSString *)gameObject withCallback:(NSString *)callback;
+- (void) checkCameraPermission:(NSString *)gameObject withCallback:(NSString *)callback;
+- (void) checkMicPermission :(NSString *)NSGameObject withCallback:(NSString *)NSCallback;
+-(void) checkMediaLibraryPermissions : (NSString *)NSGameObject withCallback:(NSString *)NSCallback;
 
-#if UNITY_IOS && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    extern static private void _verifyPermission(string gameObject, string callback);
-#endif
-
-    public static void VerifyPermission(string gameObjectName, string callbackName)
-    {
-#if UNITY_IOS && !UNITY_EDITOR
-        _verifyPermission(gameObjectName, callbackName);
-#endif
-    }
-}
+@end
 
 // MIT License
 // 

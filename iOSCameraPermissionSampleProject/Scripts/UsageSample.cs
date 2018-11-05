@@ -1,5 +1,3 @@
-// Attach this script to the gameobject that will be clicked to call VerifyPermission().
-// Ex. Attach to a UI.Button, and set OnClick to VerifyPermission();
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +6,7 @@ public class UsageSample : MonoBehaviour
 {
     // Link UI elements in the Inspector.
     [SerializeField] private Button _button;
+    [SerializeField] private Button _button2;
     [SerializeField] private Text _text;
 
     public void VerifyPermission()
@@ -23,9 +22,60 @@ public class UsageSample : MonoBehaviour
         else Debug.Log("Link UI Button in the Inspector.");
 
         // Use native UI to request camera permission.
-        iOSCameraPermission.VerifyPermission(gameObject.name, "SampleCallback");
+        iOSCameraPermission.VerifyCamera(gameObject.name, "SampleCallback");
     }
 
+    public void VerifyLocation()
+    {
+        iOSCameraPermission.VerifyLocation(gameObject.name,"LocationCallBack");
+    }
+    
+      public void VerifyMic()
+        {
+            iOSCameraPermission.VerifyMic(gameObject.name,"MicCallback");
+        }
+    
+    public void VerifyMedia()
+    {
+        iOSCameraPermission.VerifyMedia(gameObject.name,"MediaCallback");
+    }
+
+    public void OpenSettings()
+    {
+        Application.OpenURL($"app-settings://notification/com.aftermathplay.collaborativehealing");
+        Application.OpenURL($"app-settings://LOCATION_SERVICES/com.aftermathplay.collaborativehealing");
+    }
+
+    private void MediaCallback(string mediaPermission)
+    {
+        Debug.Log("Callback.mediaPermission = " + mediaPermission);   
+    }
+    
+    private void MicCallback(string micPermission)
+    {
+        Debug.Log("Callback.micPermission = " + micPermission);
+    }
+    
+    private void LocationCallBack(string locationPermission)
+    {
+        Debug.Log("Callback.locationPermission = " + locationPermission);
+        
+//        if (permissionWasGranted == "true")
+//        {
+//            You can now use the device camera.
+//            if (_text != null) _text.text = "You can now use the camera";
+//        }
+//        else
+//        {
+//            You cannot use the device camera.  You may want to display a message to the user
+//            about changing the camera permission in the Settings app.
+//            if (_text != null) _text.text = "Please active camera access in Settings.";
+
+//            You may want to re-enable the button to display the Settings message again.
+//            if (_button != null) _button.interactable = true;
+//        }
+    }
+    
     private void SampleCallback(string permissionWasGranted)
     {
         Debug.Log("Callback.permissionWasGranted = " + permissionWasGranted);
